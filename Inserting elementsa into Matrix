@@ -1,0 +1,17 @@
+import random
+m=3
+n=3
+list=[]
+//To create rows
+for i in range(m):
+  list.append([])
+def randomm():
+  return random.randint(0,m*m)
+def get_value():
+  return randomm()
+for i in range(m):
+  for j in range(n):
+    list[i].append(j)
+    a=get_value()
+    list[i][j]=a
+print(list)
