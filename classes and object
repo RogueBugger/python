@@ -1,0 +1,13 @@
+class example:
+  #static variable
+  value_of_a=10
+  #default constructor
+  def __init__(self, a, b):
+    self.a=a
+    self.b=b
+    print("hello world")
+
+#object
+obj=example(1,2)
+print(obj.a)
+
