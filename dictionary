@@ -1,0 +1,58 @@
+dicts={
+  1:"one",
+  2:"two",
+  3:"three",
+  4:"four",
+  5:"five",
+}
+for i in dicts:
+  print(dicts[i])
+#get fucntion to get value from the dictionary
+print(dicts.get(1),"asdf")
+
+# empty dictionary
+my_dict = {}
+
+# dictionary with integer keys
+my_dict = {1: 'apple', 2: 'ball'}
+
+# dictionary with mixed keys
+my_dict = {'name': 'John', 1: [2, 4, 3]}
+
+# using dict()
+my_dict = dict({1:'apple', 2:'ball'})
+print(my_dict)
+# from sequence having each item as a pair
+my_dict = dict([(1,'apple'), (2,'ball')])
+print(my_dict.get())
+
+# add item
+my_dict['address'] = 'Downtown'  
+# remove a particular item
+# Output: 16
+print(squares.pop(4))  
+
+# Output: {1: 1, 2: 4, 3: 9, 5: 25}
+print(squares)
+
+# remove an arbitrary item
+# Output: (1, 1)
+print(squares.popitem())
+
+# Output: {2: 4, 3: 9, 5: 25}
+print(squares)
+
+# delete a particular item
+del squares[5]  
+
+# Output: {2: 4, 3: 9}
+print(squares)
+
+# remove all items
+squares.clear()
+
+# Output: {}
+print(squares)
+
+# delete the dictionary itself
+del squares
