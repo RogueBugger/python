@@ -1,0 +1,15 @@
+import numpy as np
+
+A = np.arange(4)
+print('A =', A)
+
+
+//reshape function must be multiple of arange number
+B = np.arange(9).reshape(3,3)
+print(B)
+B=np.transpose(B)
+print('B =', B)
+
+#empty(shape,dtype,order)
+x = np.ones((1, 2, 3))
+print(x)
