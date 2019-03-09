@@ -1,0 +1,17 @@
+import random
+a,b=1,2
+#return random float value from range a->b
+h=random.uniform(a, b)
+print(h)
+#return random interger value
+print(random.randint(0, 5))
+a=[[i] for i in range(1,6)]
+print(a)
+#shuffle element in the list
+random.shuffle(a)
+print(a)
+#randomly select one value from the list
+print(random.choice(a))
+#randomly select one value and increament it by the given value
+for _ in range(1,5):
+  print(random.randrange(0,20,2))
