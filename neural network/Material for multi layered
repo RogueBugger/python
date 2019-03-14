@@ -1,0 +1,1 @@
+res = np.dot(mat1,mat2) 
