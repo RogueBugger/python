@@ -9,10 +9,7 @@ def RElu(a):
     return ar
 
 def lsf(a):
-    ar=[]
-    for x in a:
-        ar.append([1/(1+math.exp(-x))])
-    return ar
+    return 1/(1+np.exp(-a))
 
 class Neuron:
     def __init__(self,input_layer,hidden_layer,output_layer):
@@ -29,13 +26,13 @@ class Neuron:
             self.hidden_layer_weight.append([random.uniform(0.0,1.0) for i in range(self.hidden_layer)])
         self.bias_input_weight=[]
         for i in range(self.hidden_layer):
-            self.bias_input_weight.append([random.uniform(0.0,1.0) for i in range(self.input_layer)])
+            self.bias_input_weight.append([random.uniform(0.0,1.0) for i in range(1)])
         self.bias_hidden_weight=[]
         for i in range(output_layer):
             self.bias_hidden_weight.append([random.uniform(0.0,1.0) for i in range(1)])
-        self.bias=np.array([[1],[1]])
-        self.biasHidden=np.array([1])
-        self.learning_rate=0.1
+        self.bias=np.array([[-0.5],[-0.6]])
+        self.biasHidden=np.array([-0.5])
+        self.learning_rate=1.5
         self.acc=0
 
     def gradient(self,x):
@@ -47,66 +44,48 @@ class Neuron:
     def guess(self,inputs):
         sum=0
         sum=np.dot(self.input_layer_weight,inputs)
-        sumBias=np.dot(self.bias_input_weight,self.bias)
+        sumBias=np.multiply(self.bias_input_weight,self.bias)
         v=np.add(sumBias,sum)
-        hd=lsf(v)
+        hd=lsfcd (v)
         self.hidden_input=hd
         sum1=np.dot(self.hidden_layer_weight,hd)
-        sumBias1=np.dot(self.bias_hidden_weight,self.biasHidden)
+        sumBias1=np.multiply(self.bias_hidden_weight,self.biasHidden)
         v1=np.add(sumBias1,sum1)
-        self.output=v1
         hd1=lsf(v1)
+        self.output=hd1
         return hd1
 
     def train(self,inputs,target):
-        Guess=self.guess(inputs)
 
-        #output error
-        error=np.subtract(target,Guess)
-
+        error=np.subtract(target,self.guess(inputs))
+        hiddenError=np.dot(np.transpose(self.hidden_layer_weight),error)
         #gradiet of the output and hidden to output weight
         gd=self.gradient(self.output)
-        gradientHidden=np.multiply(gd,np.transpose(self.hidden_input))
-        changeHO=np.multiply(error,self.learning_rate)
-        deltaHW=np.add(gradientHidden,changeHO)
+        gradientHidden=np.multiply(error,gd)
+        deltaHW=np.multiply(gradientHidden,self.learning_rate)
+        changeHO=np.dot(deltaHW,np.transpose(self.output))
         self.hidden_layer_weight=np.add(self.hidden_layer_weight,deltaHW)
         #bias delta weight
-        deltaBH=np.multiply(self.learning_rate,error)
-        self.bias_hidden_weight=np.add(deltaBH,self.bias_hidden_weight)
-
-        #calculating hidden error
-        hiddenError=np.dot(np.transpose(self.input_layer_weight),self.hidden_input)
-        inputGradient=np.dot(self.gradient(self.hidden_input),np.transpose(inputs))
-        inputErLr=np.multiply(hiddenError,self.learning_rate)
-        deltaIH=np.multiply(inputErLr,inputGradient)
+        self.bias_hidden_weight=np.add(deltaHW,self.bias_hidden_weight)
+        inputGradient=np.multiply(hiddenError,self.gradient(self.hidden_input))
+        inputErLr=np.multiply(inputGradient,self.learning_rate)
+        deltaIH=np.multiply(inputErLr,np.transpose(inputs))
         self.input_layer_weight=np.add(self.input_layer_weight,deltaIH)
-
         #bias of input_layer
-        deltaBI=np.multiply(self.learning_rate,hiddenError)
-        self.bias=np.add(self.bias,deltaBI)
-        #print(Guess,target)
+        self.bias=np.add(self.bias,inputErLr)
 
-
-class points:
-    def __init__(self):
-        self.dataset=[[np.array([1,0]).reshape(2,1),1],
-        [np.array([0,0]).reshape(2,1),0],
-        [np.array([1,1]).reshape(2,1),0],
-        [np.array([0,0]).reshape(2,1),1],
-        ]
-
+dataset=[[np.array([1,0]).reshape(2,1),0],
+[np.array([0,1]).reshape(2,1),0],
+[np.array([1,1]).reshape(2,1),1],
+[np.array([0,0]).reshape(2,1),1],
+]
 a=Neuron(2,2,1)
-o=[]
-for i in range(1000 ):
-    o.append(points())
-
-
-for o in o:
-    shuffle(o.dataset)
-    for v in o.dataset:
+for i in range(1000):
+    shuffle(dataset)
+    for v in dataset:
         a.train(v[0],v[1])
 
-print(a.guess(np.array([1,0]).reshape(2,1)))
-print(a.guess(np.array([0,1]).reshape(2,1)))
 print(a.guess(np.array([0,0]).reshape(2,1)))
+print(a.guess(np.array([0,1]).reshape(2,1)))
+print(a.guess(np.array([1,0]).reshape(2,1)))
 print(a.guess(np.array([1,1]).reshape(2,1)))
