@@ -41,7 +41,6 @@ class Neuron:
     def gradient(self,x):
         k=np.subtract(1,x)
         x=np.multiply(k,x)
-
         return x
 
 
